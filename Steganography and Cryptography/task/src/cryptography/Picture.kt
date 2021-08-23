@@ -95,7 +95,7 @@ class Picture {
         img.setRGB(col, row, newColor.rgb)
     }
 
-    fun readMessageFromImage(): String {
+    fun readMessageFromImage(): ByteArray {
         val bytes = mutableListOf<Byte>()
         // var bitNumber = 0
         var bitNumber = 7
@@ -106,13 +106,14 @@ class Picture {
                 if (curBit == 1) {
                     byte = byte or (1 shl bitNumber)
                 }
+                // code commented out works, but does not pass tests.
                 // bitNumber++
-                bitNumber--
                 /*if (bitNumber >= 8) {
                     bytes.add(byte.toByte())
                     bitNumber = 0
                     byte = 0
                 }*/
+                bitNumber--
                 if (bitNumber < 0) {
                     bytes.add(byte.toByte())
                     bitNumber = 7
@@ -121,17 +122,17 @@ class Picture {
 
                 if (bytes.size > 3 &&
                     bytes.slice(bytes.lastIndex - 2..bytes.lastIndex) == mutableListOf(
-                        byteNULL,
-                        byteNULL,
-                        byteETX
+                        byteNULL, byteNULL, byteETX
                     )
                 )
                     break@ETXFlag
             }
         }
-        return bytes.slice(0..bytes.lastIndex - 3)
+
+        val encryptedMessageArray = bytes.slice(0..bytes.lastIndex - 3)
             .toByteArray()
-            .toString(Charsets.UTF_8)
+
+        return encryptedMessageArray
     }
 
     inner class FileNotFoundException(message: String) : Throwable()
