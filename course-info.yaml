@@ -9,4 +9,5 @@ summary: 'You can use encryption to send secret messages, but if you want to be 
 programming_language: Kotlin
 content:
 - Steganography and Cryptography
+- Topics
 mode: Study

@@ -1,0 +1,81 @@
+<h2>Introduction to generic programming</h2>
+<html>
+ <head></head>
+ <body>
+  <p>Sometimes methods and classes that we use do not depend on the data on which they operate. For example, arrays can store values of different types: <code class="language-kotlin">String</code>, <code class="language-kotlin">Int</code>, <code class="language-kotlin">Char</code>, etc. However, the algorithm of finding an element in an array doesn't depend on the type of values the array stores.</p> 
+  <p>For these cases, Kotlin supports <strong>generic programming</strong>. Generics represent parameterized types. Generic methods and classes can handle different types in the same general way. The type should be determined when you create an instance of the class or invoke a method. Generic programming allows writing more abstract and reusable code. Let's take a closer look at Generics!</p> 
+  <h2>Generic classes</h2> 
+  <p>A generic class represents a class that is parameterized over types. To declare such a class, we should specify the type parameter in angle brackets after the class name. Let's take a look at the example below.</p> 
+  <p>Here you can see a class with a single type parameter named <code class="language-kotlin">T</code>. <code class="language-kotlin">T</code> represents "some type", and the declaration of our class doesn't depend on this type. </p> 
+  <pre><code class="language-kotlin">class Box&lt;T&gt;(t: T) {
+
+    /*Constructor accepts
+    * a variable of "some type"
+    * and sets it to a field*/
+
+    var value = t  // A field of "some type"
+
+    fun changeObjectInBox(t: T): T {
+        value = t
+        return value
+    }
+
+    /* Returns the value of the field of "some type"*/
+    fun showObjectInBox(): T {
+        return value
+    }
+}</code></pre> 
+  <p>After the class has been declared, the type parameter can be used as an ordinary type inside the class body. In the example above, the type parameter <code class="language-kotlin">T</code> is used as:</p> 
+  <ul> 
+   <li>a type for a field;</li> 
+   <li>a<em> </em>constructor argument type;</li> 
+   <li>an<em> </em>instance method argument and a return type.</li> 
+  </ul> 
+  <p>A generic class can have several type parameters as in the example:</p> 
+  <pre><code class="language-kotlin">class Three&lt;T, U, V&gt;(var first: T, var second: U, var third: V)</code></pre> 
+  <p>However, usually generic classes have one or two parameters.</p> 
+  <h2>Naming convention for type parameters</h2> 
+  <p>The type parameter is named with a single letter according to the convention in order to distinguish it from an ordinary class name.</p> 
+  <p>The most commonly used type parameter names are:</p> 
+  <ul> 
+   <li> <p><code class="language-kotlin">T</code> – Type;</p> </li> 
+   <li><code class="language-kotlin">S</code>, <code class="language-kotlin">U</code>, <code class="language-kotlin">V</code>, etc. – 2nd, 3rd, 4th types;</li> 
+   <li><code class="language-kotlin">E</code> – Element (often used by different collections);</li> 
+   <li><code class="language-kotlin">K</code> – Key;</li> 
+   <li><code class="language-kotlin">V</code> – Value;</li> 
+   <li><code class="language-kotlin">N</code> – Number.</li> 
+  </ul> 
+  <h2>Creating objects of generic classes</h2> 
+  <p>When we create an instance of a generic class, we need to provide a concrete type as a type argument:</p> 
+  <pre><code class="language-kotlin">val obj1: Box&lt;Int&gt; = Box&lt;Int&gt;(123)
+val obj2: Box&lt;String&gt; = Box&lt;String&gt;("abc")</code></pre> 
+  <p>But if the type is a standard one like <code class="language-kotlin">Int</code>, <code class="language-kotlin">String</code>, <code class="language-kotlin">Double</code>, etc., you can omit the type argument, as the compiler infers it:</p> 
+  <pre><code class="language-kotlin">val obj1 = Box(123)
+val obj2 = Box("abc")</code></pre> 
+  <p>After we have created an object of the generic class and specified the type argument, we can invoke methods of the class:</p> 
+  <pre><code class="language-kotlin">println(obj1.showObjectInBox()) // 123
+println(obj2.showObjectInBox()) // "abc"</code></pre> 
+  <p>If the class has more than one type parameter, we should specify all of them:</p> 
+  <pre><code class="language-kotlin">val obj = Three&lt;String, Int, Int&gt;("abc", 1, 2)</code></pre> 
+  <h2>Creating your own collection</h2> 
+  <p>Let's create a generic class called <code class="language-kotlin">RandomCollection</code>. It stores a list of items of some type, a constructor to set the items, and a method to get an element of the list by its index. The collection we are creating is immutable. </p> 
+  <pre><code class="language-kotlin">class RandomCollection&lt;T&gt;(val items: List&lt;T&gt;) {
+    fun get(index: Int): T {
+        return items[index]
+    }
+
+    fun length(): Int {
+        return items.size
+    }
+}</code></pre> 
+  <p>This class has two methods: <code class="language-kotlin">get(index:Int)</code>, which has <code class="language-kotlin">T</code> as a return type, and <code class="language-kotlin">length()</code>, which doesn't use the parameter type.</p> 
+  <p>The following code creates an instance of <code class="language-kotlin">RandomCollection</code> for storing three strings in it.</p> 
+  <pre><code class="language-kotlin">var nums = RandomCollection(listOf(1, 2, 3, 4))
+for (i in 0 until nums.length()) {
+       print("${nums.get(i)} ") // "1 2 3 4 "
+}</code></pre> 
+  <p>You can parametrize <code class="language-kotlin">RandomCollection</code> with any standard type, standard classes, and your own classes.</p> 
+  <h2>Conclusion</h2> 
+  <p>A generic class can declare one or more type parameters and then use them inside the class body as types of fields, method and constructor arguments, and return values. The class doesn't depend on the type which it operates; the type matters only when we create an instance of such a class. Generic programming is good for versatility and allows us to write reusable code. </p>
+ </body>
+</html>

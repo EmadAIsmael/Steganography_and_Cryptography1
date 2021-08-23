@@ -1,0 +1,17 @@
+type: code
+files:
+- name: src/Main.kt
+  visible: true
+  text: |-
+    class SweetBox{
+        /*define the class*/
+    }
+
+    //don't change classes below
+    class Chocolate{}
+
+    class Marmelade{}
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/14701#comment
+status: Solved
+record: -1

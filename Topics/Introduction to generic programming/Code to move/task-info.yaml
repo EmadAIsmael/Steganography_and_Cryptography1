@@ -1,0 +1,21 @@
+type: code
+files:
+- name: src/Main.kt
+  visible: true
+  text: |-
+    class Box<T>{
+        /**
+        *declare a class
+        */
+        //implement methods
+        fun getBoxVolume()
+        fun getFurnitureFromBox()
+    }
+
+    //Don't change classes below
+    class Fridge{}
+    class Armchair{}
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/14702#comment
+status: Solved
+record: -1

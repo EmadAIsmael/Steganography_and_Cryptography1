@@ -11,7 +11,9 @@ class Picture {
 
     private var width: Int = 0
     private var height: Int = 0
-    private lateinit var img: BufferedImage
+    lateinit var img: BufferedImage
+    val byteNULL = 0.toByte()
+    val byteETX = 3.toByte()
 
     constructor(width: Int, height: Int) {
         // create a blank image with width by height
@@ -23,6 +25,9 @@ class Picture {
     constructor(fileName: String) {
         open(fileName)
     }
+
+    fun width() = this.width
+    fun height() = this.height
 
     fun open(fileName: String) {
         // read image from file
@@ -52,7 +57,7 @@ class Picture {
         return result
     }
 
-    fun Int.setLeastSignificantBitToOne() = this or 1
+    private fun Int.setLeastSignificantBitToOne() = this or 1
 
     fun changeLeastSignificantBit() {
         for (col in 0 until width) {
@@ -69,16 +74,69 @@ class Picture {
                 )
                 img.setRGB(col, row, newColor.rgb)
             }
-
         }
+    }
+
+    fun Color.setBlueLeastSignificantBitOn(): Color =
+        Color(this.red, this.green, this.blue or 1)
+
+    fun Color.setBlueLeastSignificantBitOff(): Color =
+        Color(this.red, this.green, this.blue and 0xfe)
+
+    fun Color.getBlueLeastSignificantBit(): Int = this.blue and 1
+
+    fun changeColorAt(col: Int, row: Int, bitValue: Int) {
+        val color = Color(img.getRGB(col, row))
+        val newColor: Color
+        if (bitValue == 1)
+            newColor = color.setBlueLeastSignificantBitOn()
+        else
+            newColor = color.setBlueLeastSignificantBitOff()
+        img.setRGB(col, row, newColor.rgb)
+    }
+
+    fun readMessageFromImage(): String {
+        val bytes = mutableListOf<Byte>()
+        // var bitNumber = 0
+        var bitNumber = 7
+        var byte = 0
+        ETXFlag@ for (row in 0 until img.height) {
+            for (col in 0 until img.width) {
+                val curBit = Color(img.getRGB(col, row)).getBlueLeastSignificantBit()
+                if (curBit == 1) {
+                    byte = byte or (1 shl bitNumber)
+                }
+                // bitNumber++
+                bitNumber--
+                /*if (bitNumber >= 8) {
+                    bytes.add(byte.toByte())
+                    bitNumber = 0
+                    byte = 0
+                }*/
+                if (bitNumber < 0) {
+                    bytes.add(byte.toByte())
+                    bitNumber = 7
+                    byte = 0
+                }
+
+                if (bytes.size > 3 &&
+                    bytes.slice(bytes.lastIndex - 2..bytes.lastIndex) == mutableListOf(
+                        byteNULL,
+                        byteNULL,
+                        byteETX
+                    )
+                )
+                    break@ETXFlag
+            }
+        }
+        return bytes.slice(0..bytes.lastIndex - 3)
+            .toByteArray()
+            .toString(Charsets.UTF_8)
     }
 
     inner class FileNotFoundException(message: String) : Throwable()
 
     inner class RunTimeException(message: String) : Throwable()
-
-    fun width() = this.width
-    fun height() = this.height
 
     fun getRGB(x: Int, y: Int): IntArray {
         // returns an Int representing color value at x, y.

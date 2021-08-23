@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="GradleMigrationSettings" migrationVersion="1" />
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
@@ -11,6 +12,12 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/Steganography and Cryptography/task" />
+            <option value="$PROJECT_DIR$/Topics/Introduction to generic programming/Code to move" />
+            <option value="$PROJECT_DIR$/Topics/Introduction to generic programming/Get and set" />
+            <option value="$PROJECT_DIR$/Topics/Introduction to generic programming/Learning on mistakes" />
+            <option value="$PROJECT_DIR$/Topics/Introduction to generic programming/Stack Kotlin Flow" />
+            <option value="$PROJECT_DIR$/Topics/Introduction to generic programming/Sweety coding" />
+            <option value="$PROJECT_DIR$/Topics/Introduction to generic programming/Theory" />
             <option value="$PROJECT_DIR$/util" />
           </set>
         </option>

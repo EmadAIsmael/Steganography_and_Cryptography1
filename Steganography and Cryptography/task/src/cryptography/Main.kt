@@ -26,7 +26,10 @@ fun doRequest(input: String): Boolean {
             /*println("Hiding message in image.")*/
             Steganography().doHide()
         },
-        "show" to { println("Obtaining message from image.") },
+        "show" to {
+            /*println("Obtaining message from image.")*/
+            Steganography().doShow()
+        },
         "exit" to { println("Bye!"); exitProcess(0) },
     )
     requests[input]?.invoke()
